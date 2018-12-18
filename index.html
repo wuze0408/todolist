@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>待办事项列表页</title>
+	<script src="js/vue.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+	<link rel="stylesheet" href="css/todosty.css">
+	<link rel="stylesheet" href="css/animate.css">
+</head>
+<body>
+	<div id="warp">
+		<top @add="add"></top>	
+		<todo :list="list" @remove="remove" @changestatus="mark"></todo>		
+		<bot :list="list" @remove="remove"></bot>	
+	</div>
+
+	<script>
+		Vue.component("top",{
+			template:`
+				<header>
+					<div class="box">
+						<span>ToDolist</span>
+						<button v-on:click="add">添加</button>
+						<input type="text" placeholder="添加ToDo" v-model="todo">
+					</div>
+				</header>
+			`,
+			data(){
+				return {
+					todo:""
+				}
+			},
+			methods:{
+				add(){
+					this.$emit("add",this.todo);
+					this.todo = "";
+				}
+			}
+		})
+
+		Vue.component("todo",{
+			template:`
+				<div class="todobox">
+					<h2>
+						正在进行
+						<span class="count">{{count}}</span>
+					</h2>
+					<transition enter-active-class="animated fadeIn">	
+						<p v-if="!count">目前没有待办事项</p>
+					</transition>
+					<ul class="ul">
+						<transition-group enter-active-class="animated fadeIn" leave-active-class="animated fadeOutRight">
+							<li v-if="!item.status" v-for="(item,index) of list" :key="item.name">
+								<input type="checkbox" @click="changestatus(index)">
+									{{item.name}} 
+								<span @click="remove(index)">-</span>
+							</li>
+						</transition-group>
+					</ul>
+				</div>
+			`,
+			props:["list"],
+			methods:{
+				remove(index){
+					this.$emit("remove",index)
+				},
+				changestatus(index){
+					this.$emit("changestatus",index)
+				}
+			},
+			computed:{
+				count(){
+					var count = 0;
+					for(let item of this.list){
+						if(!item.status){
+							count++;
+						}
+					}
+					return count;
+				}
+			}
+		})
+
+		Vue.component("bot",{
+			template:`
+				<div class="todobox">
+					<h2>
+						已完成
+						<span class="count">{{count}}</span>
+					</h2>
+					<transition enter-active-class="animated fadeIn">	
+						<p v-if="!count">目前没有已完成事项</p>
+					</transition>
+					<ul class="ul bot">
+						<transition-group enter-active-class="animated fadeIn" leave-active-class="animated fadeOutRight">
+							<li v-if="item.status" v-for="(item,index) of list" :key="item.name">
+								<input type="checkbox" checked>
+									{{item.name}}
+								<span @click="remove(index)">-</span>
+							</li>
+						</transition-group>
+					</ul>
+				</div>
+			`,
+			props:["list"],
+			methods:{
+				remove(index){
+					this.$emit("remove",index)
+				}
+
+			},
+			computed:{
+				count(){
+					var count = 0;
+					for(let item of this.list){
+						if(item.status){
+							count++;
+						}
+					}
+					return count;
+				}
+			}
+		})
+
+		window.onunload = function(){
+			localStorage.setItem("list",JSON.stringify(root.list));
+		}
+
+
+
+		var root = new Vue({
+			el:"#warp",
+			data:{
+				list:[]
+			},
+			methods:{
+				add(todo){
+					var obj={
+						name:todo,
+						status:false
+					}
+					this.list.push(obj);
+				},
+				remove(index){
+					this.list.splice(index,1)
+				},
+				mark(index){
+					this.list[index].status=true;
+				}
+			},
+			mounted(){
+				var list = JSON.parse(localStorage.getItem("list"));
+
+				if(list){
+					this.list=list;
+				}
+
+			}
+		})
+	</script>
+</body>
+</html>

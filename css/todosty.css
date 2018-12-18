@@ -1,0 +1,93 @@
+*{margin:0;padding:0;}
+body{
+	font-size: 16px;
+	overflow-x:hidden; 
+	background-color: #ddd;
+}
+input,button{outline: none;}
+header{
+	height: 50px;
+	background:rgba(47,47,47,0.9);
+}
+p{
+	margin-top: 12px;
+	font-size: 12px;
+	color:#666;
+}
+li{list-style: none;}
+.box{
+	width: 600px;
+	margin:0 auto;
+	padding: 0 10px;
+}
+.box span{
+	width: 100px;
+	line-height: 50px;
+	float: left;
+	color: #ddd;
+	font-size: 24px;
+	cursor: pointer;
+}
+header input{
+	width: 60%;
+	height: 24px;
+	margin-top: 12px;
+	text-indent: 10px;
+	float:right;
+	border-radius: 5px 0 0 5px;
+	margin-left: 80px;
+	box-shadow: 0 1px 0 rgba(255,255,255,0.24), 0 1px 6px rgba(0,0,0,0.45) inset;
+}
+button{
+	width: 40px;
+	line-height: 25px;
+	float:right;
+	margin-top: 12px;
+	border-radius:0 5px 5px 0;
+}
+.todobox{
+	width: 600px;
+	margin:10px auto;
+}
+.ul li{
+	line-height: 32px;
+	background: #fff;
+	padding:0 20px;
+	margin: 10px;
+	border-radius: 3px;
+	border-left: 4px solid #629A9C;
+}
+.ul li input{
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 5px;
+	margin-right: 15px;
+}
+.ul li span{
+	display: block;
+	float: right;
+	width: 10px;
+	line-height: 10px;
+	cursor: pointer;
+	padding: 4px;
+	background: #eee;
+	margin-top: 6px;
+	border-radius: 100%;
+}
+.bot li{
+	opacity: 0.5;
+}
+.count{
+	float: right;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	margin-top: 5px;
+	background: #333;
+	color: #fff;
+	text-align: center;
+	line-height: 16px;
+	font-size: 14px;
+}
